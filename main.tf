@@ -101,3 +101,19 @@ module "blog_sg" {
   egress_cidr_blocks = ["0.0.0.0/0"]
 }
 
+module "autoscaling" {
+  source  = "terraform-aws-modules/autoscaling/aws"
+  version = "7.3.0"
+  # insert the 1 required variable here
+
+  min_size                  = 1
+  max_size                  = 2
+
+  vpc_zone_identifier       = module.blog_vpc.public_subnets
+  target_group_arns         = module.alb.target_group_arns
+  security_groups           = [module.blog_sg.security_group_id] 
+
+  ami           = data.aws_ami.app_ami.id
+  instance_type = var.instance_type
+
+}
