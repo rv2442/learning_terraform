@@ -101,10 +101,10 @@ module "blog_sg" {
   egress_cidr_blocks = ["0.0.0.0/0"]
 }
 
-module "autoscaling" {
+module "blog_autoscaling" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "7.3.0"
-  # insert the 1 required variable here
+  name    = "blog"
 
   min_size                  = 1
   max_size                  = 2
