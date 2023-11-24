@@ -50,6 +50,7 @@ module "blog_vpc" {
 
 module "alb" {
   source = "terraform-aws-modules/alb/aws"
+  version = "~> 6.0"
 
   # Truncated for brevity ...
   name = "blog-alb"
@@ -74,7 +75,7 @@ module "alb" {
     }
   ]
 
-  listeners = [
+  http_tcp_listeners = [
     {
       port = 80
       protocol = "HTTP"
