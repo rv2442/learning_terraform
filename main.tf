@@ -27,9 +27,9 @@ resource "aws_instance" "blog" {
 module "blog_vpc" {
   source = "terraform-aws-modules/vpc/aws"
   name = "my-vpc"
-  cidr = "${var.environment.name_prefix}.0.0/16"
+  cidr = "${var.environment.network_prefix}.0.0/16"
   azs             = ["us-west-2a", "us-west-2b", "us-west-2c"]
-  public_subnets  = ["${var.environment.name_prefix}.101.0/24", "${var.environment.name_prefix}.102.0/24", "${var.environment.name_prefix}.103.0/24"]
+  public_subnets  = ["${var.environment.network_prefix}.101.0/24", "${var.environment.network_prefix}.102.0/24", "${var.environment.network_prefix}.103.0/24"]
   tags = {
     Terraform = "true"
     Environment = "dev"
@@ -46,7 +46,7 @@ module "alb" {
   security_groups = [module.blog_sg.security_group_id]
   target_groups = [
     {
-      name_prefix = "${var.environment.name}-"
+      network_prefix = "${var.environment.name}-"
       backend_protocol = "HTTP"
       backend_port = 80
       target_type = "instance"
